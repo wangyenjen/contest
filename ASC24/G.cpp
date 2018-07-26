@@ -147,95 +147,95 @@ void print_path(pii u) {
 int main() {
   freopen("queen.in" , "r" , stdin);
   freopen("queen.out" , "w" , stdout);
-	int n;
-	RI(n);
-	v.PB(MP(0 , 0));
-	dp[MP(0 , 0)] = 0;
-	path[MP(0 , 0)] = MP(-1 , -1);
-	last1[0] = MP(0 , 0);
-	last2[0] = MP(0 , 0);
-	last3[0] = MP(0 , 0);
-	REP1(i , 1 , n) {
-		int x , y;
-		RI(x , y);
-		v.PB(MP(x , y));
+  int n;
+  RI(n);
+  v.PB(MP(0 , 0));
+  dp[MP(0 , 0)] = 0;
+  path[MP(0 , 0)] = MP(-1 , -1);
+  last1[0] = MP(0 , 0);
+  last2[0] = MP(0 , 0);
+  last3[0] = MP(0 , 0);
+  REP1(i , 1 , n) {
+    int x , y;
+    RI(x , y);
+    v.PB(MP(x , y));
     s_y[y].PB(MP(x , y));
     id[MP(x , y)] = i;
-	}
-	int ans = 0;
-	for(auto &iter : s_y) {
-		vector<pii> &t = iter.y;
-		sort(ALL(t));
-		st.clear();
-		REP(i , SZ(t)) {
-			pii &p = t[i];
-			pii tmp = pii(-1 , -1);
-			if(last1.count(p.x) && (tmp == MP(-1 , -1) || dp[last1[p.x]] > dp[tmp])) {
+  }
+  int ans = 0;
+  for(auto &iter : s_y) {
+    vector<pii> &t = iter.y;
+    sort(ALL(t));
+    st.clear();
+    REP(i , SZ(t)) {
+      pii &p = t[i];
+      pii tmp = pii(-1 , -1);
+      if(last1.count(p.x) && (tmp == MP(-1 , -1) || dp[last1[p.x]] > dp[tmp])) {
           tmp = last1[p.x];
-			}
-			if(last2.count(p.x-p.y) && (tmp == MP(-1 , -1) || dp[last2[p.x-p.y]] > dp[tmp])) {
+      }
+      if(last2.count(p.x-p.y) && (tmp == MP(-1 , -1) || dp[last2[p.x-p.y]] > dp[tmp])) {
           tmp = last2[p.x-p.y];
-			}
-			if(last3.count(p.x+p.y) && (tmp == MP(-1 , -1) || dp[last3[p.x+p.y]] > dp[tmp])) {
+      }
+      if(last3.count(p.x+p.y) && (tmp == MP(-1 , -1) || dp[last3[p.x+p.y]] > dp[tmp])) {
           tmp = last3[p.x+p.y];
-			}
-			dp[p] = -1;
-			if(SZ(st)) {
-				if(dp[p] < (*prev(st.end())).x + i + 1) {
+      }
+      dp[p] = -1;
+      if(SZ(st)) {
+        if(dp[p] < (*prev(st.end())).x + i + 1) {
             dp[p] = (*prev(st.end())).x + i + 1;
             path[p] = t[(*prev(st.end())).y];
-				}
-			}
-			if(tmp != pii(-1 , -1) && dp[tmp] != -1) {
-				st.insert(MP(dp[tmp] , i));
-				path2[p] = tmp;
-				if(dp[p] < dp[tmp]+1) {
+        }
+      }
+      if(tmp != pii(-1 , -1) && dp[tmp] != -1) {
+        st.insert(MP(dp[tmp] , i));
+        path2[p] = tmp;
+        if(dp[p] < dp[tmp]+1) {
             dp[p] = dp[tmp] + 1;
             path[p] = tmp;
-				}
-			}
-		}
-		st.clear();
-		for(int i = SZ(t) - 1; i >= 0; i--) {
-			pii &p = t[i];
-			pii tmp = MP(-1 , -1);
-			if(last1.count(p.x) && (tmp == MP(-1 , -1) || dp[last1[p.x]] > dp[tmp])) {
+        }
+      }
+    }
+    st.clear();
+    for(int i = SZ(t) - 1; i >= 0; i--) {
+      pii &p = t[i];
+      pii tmp = MP(-1 , -1);
+      if(last1.count(p.x) && (tmp == MP(-1 , -1) || dp[last1[p.x]] > dp[tmp])) {
           tmp = last1[p.x];
-			}
-			if(last2.count(p.x-p.y) && (tmp == MP(-1 , -1) || dp[last2[p.x-p.y]] > dp[tmp])) {
+      }
+      if(last2.count(p.x-p.y) && (tmp == MP(-1 , -1) || dp[last2[p.x-p.y]] > dp[tmp])) {
           tmp = last2[p.x-p.y];
-			}
-			if(last3.count(p.x+p.y) && (tmp == MP(-1 , -1) || dp[last3[p.x+p.y]] > dp[tmp])) {
+      }
+      if(last3.count(p.x+p.y) && (tmp == MP(-1 , -1) || dp[last3[p.x+p.y]] > dp[tmp])) {
           tmp = last3[p.x+p.y];
-			}
-			if(SZ(st)) {
-				if(dp[p] < (*prev(st.end())).x + (SZ(t) - i)) {
+      }
+      if(SZ(st)) {
+        if(dp[p] < (*prev(st.end())).x + (SZ(t) - i)) {
             dp[p] = (*prev(st.end())).x + (SZ(t) - i);
             path[p] = t[(*prev(st.end())).y];
         }
-			}
-			if(tmp != MP(-1 , -1) && dp[tmp] != -1) {
-				st.insert(pii(dp[tmp] , i));
-				if(dp[p] < dp[tmp] + 1) {
-            dp[p] = dp[tmp] + 1;
-            path[p] = tmp;
-				}
-			}
-			ans = max(ans , dp[p]);
-		}
-		for(pii &p : t) {
-            last1[p.x] = p;
-            last2[p.x-p.y] = p;
-            last3[p.x+p.y] = p;
-		}
-	}
-	PL(ans);
-	REP1(i , 1 , n) {
-		if(dp[v[i]] == ans) {
-			print_path(v[i]);
-			PL();
-			break;
-		}
-	}
-	return 0;
+      }
+      if(tmp != MP(-1 , -1) && dp[tmp] != -1) {
+        st.insert(pii(dp[tmp] , i));
+        if(dp[p] < dp[tmp] + 1) {
+          dp[p] = dp[tmp] + 1;
+          path[p] = tmp;
+        }
+      }
+      ans = max(ans , dp[p]);
+    }
+    for(pii &p : t) {
+      last1[p.x] = p;
+      last2[p.x-p.y] = p;
+      last3[p.x+p.y] = p;
+    }
+  }
+  PL(ans);
+  REP1(i , 1 , n) {
+    if(dp[v[i]] == ans) {
+      print_path(v[i]);
+      PL();
+      break;
+    }
+  }
+  return 0;
 }
