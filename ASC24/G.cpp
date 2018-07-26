@@ -159,8 +159,8 @@ int main() {
 		int x , y;
 		RI(x , y);
 		v.PB(MP(x , y));
-        s_y[y].PB(MP(x , y));
-        id[MP(x , y)] = i;
+    s_y[y].PB(MP(x , y));
+    id[MP(x , y)] = i;
 	}
 	int ans = 0;
 	for(auto &iter : s_y) {
@@ -171,27 +171,27 @@ int main() {
 			pii &p = t[i];
 			pii tmp = pii(-1 , -1);
 			if(last1.count(p.x) && (tmp == MP(-1 , -1) || dp[last1[p.x]] > dp[tmp])) {
-                tmp = last1[p.x];
+          tmp = last1[p.x];
 			}
 			if(last2.count(p.x-p.y) && (tmp == MP(-1 , -1) || dp[last2[p.x-p.y]] > dp[tmp])) {
-                tmp = last2[p.x-p.y];
+          tmp = last2[p.x-p.y];
 			}
 			if(last3.count(p.x+p.y) && (tmp == MP(-1 , -1) || dp[last3[p.x+p.y]] > dp[tmp])) {
-                tmp = last3[p.x+p.y];
+          tmp = last3[p.x+p.y];
 			}
 			dp[p] = -1;
 			if(SZ(st)) {
 				if(dp[p] < (*prev(st.end())).x + i + 1) {
-                    dp[p] = (*prev(st.end())).x + i + 1;
-                    path[p] = t[(*prev(st.end())).y];
+            dp[p] = (*prev(st.end())).x + i + 1;
+            path[p] = t[(*prev(st.end())).y];
 				}
 			}
 			if(tmp != pii(-1 , -1) && dp[tmp] != -1) {
 				st.insert(MP(dp[tmp] , i));
 				path2[p] = tmp;
 				if(dp[p] < dp[tmp]+1) {
-                    dp[p] = dp[tmp] + 1;
-                    path[p] = tmp;
+            dp[p] = dp[tmp] + 1;
+            path[p] = tmp;
 				}
 			}
 		}
@@ -200,25 +200,25 @@ int main() {
 			pii &p = t[i];
 			pii tmp = MP(-1 , -1);
 			if(last1.count(p.x) && (tmp == MP(-1 , -1) || dp[last1[p.x]] > dp[tmp])) {
-                tmp = last1[p.x];
+          tmp = last1[p.x];
 			}
 			if(last2.count(p.x-p.y) && (tmp == MP(-1 , -1) || dp[last2[p.x-p.y]] > dp[tmp])) {
-                tmp = last2[p.x-p.y];
+          tmp = last2[p.x-p.y];
 			}
 			if(last3.count(p.x+p.y) && (tmp == MP(-1 , -1) || dp[last3[p.x+p.y]] > dp[tmp])) {
-                tmp = last3[p.x+p.y];
+          tmp = last3[p.x+p.y];
 			}
 			if(SZ(st)) {
 				if(dp[p] < (*prev(st.end())).x + (SZ(t) - i)) {
-                    dp[p] = (*prev(st.end())).x + (SZ(t) - i);
-                    path[p] = t[(*prev(st.end())).y];
-				}
+            dp[p] = (*prev(st.end())).x + (SZ(t) - i);
+            path[p] = t[(*prev(st.end())).y];
+        }
 			}
 			if(tmp != MP(-1 , -1) && dp[tmp] != -1) {
 				st.insert(pii(dp[tmp] , i));
 				if(dp[p] < dp[tmp] + 1) {
-                    dp[p] = dp[tmp] + 1;
-                    path[p] = tmp;
+            dp[p] = dp[tmp] + 1;
+            path[p] = tmp;
 				}
 			}
 			ans = max(ans , dp[p]);
